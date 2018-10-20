@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+
+<head>
+
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+    <!--<script src="js/json-model.js"></script>-->
+
+    <title>A MOTHER FUCKING FRAMES BITCH</title>
+
+<body>
+    <audio id="police" source src="polic.mp3" type="audio/mp3"></audio>
+<script>
+    AFRAME.registerComponent('floor',{
+        init: function(){
+            let sceneEl = document.querySelector('a-scene');
+            var counter = 0;
+            for(let rows = -25; rows < 25; rows++){
+                for(let cols = -4; cols < 4; cols++){
+                    let floorEl = document.createElement('a-plane');
+                    floorEl.setAttribute('src', '#barFloor');
+                    floorEl.setAttribute('position',{x:cols, y:0, z:rows});
+                    floorEl.setAttribute('rotation',{x:-90, y: 0, z: 0});
+                    sceneEl.appendChild(floorEl);
+                }
+            }
+            setTimeout(function(){ alert("Hello"); }, 3000);
+        },
+        tick: function(time, timeDelta){
+
+            function float2int(value){
+                return value | 0; 
+            }
+            let _tick = float2int(time);
+            console.log(_tick % 1000); 
+            if(_tick > 5000){
+                if(_tick % 1000 < 15){
+                    let player = document.getElementById("police");
+                    counter++;
+                    player.play();
+                } 
+                if(counter > 2){
+                    counter = 0;
+                    let sceneEl = document.querySelector('a-scene');
+                    let tombEl = document.createElement('a-obj-model');
+                    tombEl.setAttribute('src', '#tombOBJ');
+                    tombEl.setAttribute('mtl', '#tombMTL');
+                    tombEl.setAttribute('rotation',{x: -90, y:0, z:0});
+                    tombEl.setAttribute('scale',{x: 0.13, y: 0.13, z: 0.13});
+                    tombEl.setAttribute('position',{x: Math.random() * 6 - 3, y: 1.782, z: 6 - 3})
+                    sceneEl.appendChild(tombEl);
+                }
+            }
+        }
+    });
+
+</script>
+
+<a-scene>
+
+    <a-assets>
+
+        <img id="barFloor" src="floor.jpg">
+        <img id="bulletMTL" src="initialShadingGroup_Metallic.png">
+
+        <a-asset-item id="doorOBJ" src="Barcelona_o.obj"></a-asset-item>
+        <a-asset-item id="doorMTL" src="Barcelona_o.mtl"></a-asset-item>
+        <a-asset-item id="tableMaterial" src="textures/itme.mtl"></a-asset-item>
+        <a-asset-item id="tree" src="skuss.json"></a-asset-item>
+        <a-asset-item id="bulletOBJ" src="Threebullets.obj"></a-asset-item>
+        <a-asset-item id="tombOBJ" src="BONAVENTURE_TOMBSTONE_!.obj"></a-asset-item>
+        <a-asset-item id="tombMTL" src="BONAVENTURE_TOMBSTONE_!.mtl"></a-asset-item>
+
+
+    </a-assets>
+
+    <!--Entities-->
+    <a-entity camera="active: true" look-controls wasd-controls position="0 2.15 8" data-aframe-default-camera></a-entity>
+    <!-- three.js JSON -->
+    <!--<a-entity json-model=src"#tree"></a-entity>-->
+    <a-entity floor></a-entity>
+    <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" material="" geometry=""></a-box>
+    <a-obj-model src="#doorOBJ" mtl="#doorMTL"></a-obj-model>
+    <a-obj-model src="#tombOBJ" mtl="#tombMTL" rotation="-90 0 0" position="0 1.782 0" scale="0.13 0.13 0.13"></a-obj-model>
+
+    <!--Lights-->
+    <a-light type="ambient" color="#fff"></a-light>
+
+</a-scene>
+
+<script src="/client.js"></script>
+
+</body>
+
+</html>

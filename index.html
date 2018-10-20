@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+
+<head>
+
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+
+    <title>A MOTHER FUCKING FRAMES BITCH</title>
+
+    <body>
+    <script>
+        AFRAME.registerComponent('floor',{
+            init: function(){
+            let sceneEl = document.querySelector('a-scene');
+                
+            for(let rows = -25; rows < 25; rows++){
+                for(let cols = -4; cols < 4; cols++){
+                    let floorEl = document.createElement('a-plane');
+                    console.log('cols =' + cols);
+                    floorEl.setAttribute('src', '#barFloor');
+                    floorEl.setAttribute('position',{x:cols, y:0, z:rows});
+                    floorEl.setAttribute('rotation',{x:-90, y: 0, z: 0});
+                    sceneEl.appendChild(floorEl);
+                    }
+                }
+            } 
+        });
+                // for (var i = 0; i < 50; i++) {
+                 //    for(var j = 0; j < 50; j++){
+                     
+//            var boxEl = document.createElement('a-box');
+ //           boxEl.setAttribute('material', {color: '#EF2D5E'});
+//            boxEl.setAttribute('position', {x: Math.random() * 20 - 10, y: Math.random() * 20 - 10, z: Math.random() * 20 - 10});
+  //                       boxEl.setAttribute('position', {x:i, y: 0, z: j});
+   //         boxEl.setAttribute('scale', {x: 1, y: 1, z: 1});
+    //        sceneEl.appendChild(boxEl);
+     //                }
+      //    }
+       //     }
+        //});
+
+    </script>
+
+        <a-scene>
+
+            <a-assets>
+
+                <img id="barFloor" src="public/floor.jpg">
+
+                <a-asset-item id="doorOBJ" src="Barcelona/Barcelona_o.obj">
+                <a-asset-item id="doorMTL" src="Barcelona/Barcelona_o.mtl">
+                <a-asset-item id="tableMaterial" src="assets/textures/itme.mtl">
+                
+            </a-assets>
+
+            <a-entity camera="active: true" look-controls wasd-controls position="0 2.15 8" data-aframe-default-camera></a-entity>
+            
+            <a-entity floor></a-entity>
+
+            <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" material="" geometry=""></a-box>
+
+            <a-obj-model src="#doorOBJ" mtl="#doorMTL"></a-obj-model> 
+            <!--Lights--> 
+            <a-light type="ambient" color="#fff"></a-light>
+
+        </a-scene>
+
+        <script>
+
+        </script>
+
+    </body>
+
+</html>

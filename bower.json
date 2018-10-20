@@ -1,0 +1,13 @@
+{
+  "name": "pbmuse",
+  "description": "none",
+  "main": "index.js",
+  "authors": [
+    "w1tness <creativesxmaestro@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/w1tness/clarkStreet",
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
