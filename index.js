@@ -24,7 +24,7 @@ io.on('connection', function(socket){
 console.log('yeeet');
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
-const port = new SerialPort('/dev/cu.usbmodem1461');
+const port = new SerialPort('/dev/cu.usbmodem14611');
 
 const parser = port.pipe(new Readline({ delimiter: '\r\n' }));
 // var testVar = parser.on('data', console.log);

@@ -18,14 +18,15 @@ socket.on('serial', function(data){
     }
     if(((Math.abs(data - avgFlow)) > avgFlow *2) || data === -2){
         adder = false;
-        console.log('ice ice baby');
+        if(opening){
+            start = true;
+        }
+        
     }else{
         adder = true;
+        start = false;
     }
-    console.log('data' + data);
     // console.log('Counter = ' + counter);
     // console.log('Total = ' + TOTAL);
-    console.log('avg = ' + avgFlow);
 
 });
-

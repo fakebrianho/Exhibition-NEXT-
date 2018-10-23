@@ -1,19 +1,30 @@
 <!DOCTYPE HTML>
-
 <head>
 
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
-    <!--<script src="js/json-model.js"></script>-->
 
     <title>A MOTHER FUCKING FRAMES BITCH</title>
 
 <body>
     <audio id="police" source src="polic.mp3" type="audio/mp3"></audio>
 <script>
+var start = false;
+var opening = false;
+var stopper = true;
+const players = document.getElementById('police');
+document.addEventListener('keydown', (event) => {
+    const keyName = event.key;
+    if(keyName === 'g'){
+        opening = true;
+        let light = document.querySelector('a-light');
+        light.setAttribute('visible', false); 
+    }
+});
     AFRAME.registerComponent('floor',{
         init: function(){
             let sceneEl = document.querySelector('a-scene');
+            let zValue = 18;
             var counter = 0;
             for(let rows = -25; rows < 25; rows++){
                 for(let cols = -4; cols < 4; cols++){
@@ -24,39 +35,82 @@
                     sceneEl.appendChild(floorEl);
                 }
             }
-            setTimeout(function(){ alert("Hello"); }, 3000);
-        },
-        tick: function(time, timeDelta){
-
-            function float2int(value){
-                return value | 0; 
-            }
-            let _tick = float2int(time);
-            console.log(_tick % 1000); 
-            if(_tick > 5000){
-                if(_tick % 1000 < 15){
-                    let player = document.getElementById("police");
-                    counter++;
-                    player.play();
-                } 
-                if(counter > 2){
-                    counter = 0;
-                    let sceneEl = document.querySelector('a-scene');
-                    let tombEl = document.createElement('a-obj-model');
+            for(let stones = 0; stones < 10; stones++){
+                    let tombEl = document.createElement('a-obj-model'); 
                     tombEl.setAttribute('src', '#tombOBJ');
                     tombEl.setAttribute('mtl', '#tombMTL');
                     tombEl.setAttribute('rotation',{x: -90, y:0, z:0});
                     tombEl.setAttribute('scale',{x: 0.13, y: 0.13, z: 0.13});
-                    tombEl.setAttribute('position',{x: Math.random() * 6 - 3, y: 1.782, z: 6 - 3})
+                    tombEl.setAttribute('position',{x: Math.random() * 6 - 3, y: 1.782, z: zValue})
+                    tombEl.setAttribute('id', stones);
+                    tombEl.setAttribute('visible', false);
+                    zValue = zValue - 2;
                     sceneEl.appendChild(tombEl);
-                }
             }
-        }
-    });
+        },
+        tick: function(time, timeDelta){
+            let cameraEl = document.getElementById('cam'); 
+            let pos3 = cameraEl.getAttribute('position');
+            let tinker = document.querySelector('a-light');
+            if(start){
+                pos3.z = pos3.z - 0.01;
+                intense = tinker.getAttribute('intensity');
+                dec = intense - 0.00030;
+                cameraEl.setAttribute('position',{x:pos3.x, y:pos3.y, z:pos3.z}); 
+                console.log(intense);
+                tinker.setAttribute('intensity', dec);
+            }
+            if(start){
+            setTimeout(function(){
+                    stopper = false;
+                    players.play();
+                    let t1 = document.getElementById('1');
+                    t1.setAttribute('visible', true);
+            }, 4000);
+            setTimeout(function(){ 
+                    let t2 = document.getElementById('2');
+                    t2.setAttribute('visible', true);
+            }, 12000);
+            setTimeout(function(){ 
+                    let t3 = document.getElementById('3');
+                    t3.setAttribute('visible', true);
+            }, 15000);
+            setTimeout(function(){ 
+                    let t4 = document.getElementById('4');
+                    t4.setAttribute('visible', true);
+            }, 19000);
+            setTimeout(function(){ 
+                    let t5 = document.getElementById('5');
+                    t5.setAttribute('visible', true);
+            }, 24000);
+            setTimeout(function(){ 
+                    let t6 = document.getElementById('6');
+                    t6.setAttribute('visible', true);
+            }, 29000);
+            setTimeout(function(){ 
+                    let t7 = document.getElementById('7');
+                    t7.setAttribute('visible', true);
+            }, 35000);
+            }
+            if(!stopper && !start){
+                let light = document.querySelector('a-light');
+                let bg = document.querySelector('a-scene');
+                light.setAttribute('visible', false);
+                bg.setAttribute('color', 'black');
+                players.pause(); 
+            }else if(!stopper && start){
+                let light = document.querySelector('a-light');
+                let bg = document.querySelector('a-scene');
+                light.setAttribute('visible', true);
+                bg.setAttribute('color', 'white');
+                players.play();
+            } 
+        } 
+        });
 
 </script>
 
-<a-scene>
+<a-scene background="color: black">
 
     <a-assets>
 
@@ -75,7 +129,7 @@
     </a-assets>
 
     <!--Entities-->
-    <a-entity camera="active: true" look-controls wasd-controls position="0 2.15 8" data-aframe-default-camera></a-entity>
+    <a-entity id="cam" camera="active: true" look-controls wasd-controls position="0 2.15 25" data-aframe-default-camera></a-entity>
     <!-- three.js JSON -->
     <!--<a-entity json-model=src"#tree"></a-entity>-->
     <a-entity floor></a-entity>
@@ -84,7 +138,7 @@
     <a-obj-model src="#tombOBJ" mtl="#tombMTL" rotation="-90 0 0" position="0 1.782 0" scale="0.13 0.13 0.13"></a-obj-model>
 
     <!--Lights-->
-    <a-light type="ambient" color="#fff"></a-light>
+    <a-light type="ambient" color="#fff" intensity="1.0" ></a-light>
 
 </a-scene>
 
